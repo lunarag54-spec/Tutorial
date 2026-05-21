@@ -1,0 +1,81 @@
+<div class="container">
+    @if (loan.id) {
+        <h1>Modificar préstamo</h1>
+    } @else {
+        <h1>Nuevo préstamo</h1>
+    }
+
+    <form>
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input type="text" matInput placeholder="Identificador" [value]="loan.id ?? ''" disabled />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Cliente</mat-label>
+            <mat-select [(ngModel)]="loan.client" name="client" (selectionChange)="onSelectionChange()" required>
+                @for (client of clients; track client.id) {
+                    <mat-option [value]="client">{{ client.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Juego</mat-label>
+            <mat-select [(ngModel)]="loan.game" name="game" (selectionChange)="onSelectionChange()" required>
+                @for (game of games; track game.id) {
+                    <mat-option [value]="game">{{ game.title }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha inicio</mat-label>
+            <input
+                matInput
+                [matDatepicker]="startDatePicker"
+                [(ngModel)]="startDate"
+                name="startDate"
+                (dateChange)="onDateChange()"
+                required
+            />
+            <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Fecha fin</mat-label>
+            <input
+                matInput
+                [matDatepicker]="endDatePicker"
+                [(ngModel)]="endDate"
+                name="endDate"
+                (dateChange)="onDateChange()"
+                required
+            />
+            <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        @if (validationErrors.length > 0) {
+            @for (errorMessage of validationErrors; track errorMessage) {
+                <div class="error-text">{{ errorMessage }}</div>
+            }
+        }
+
+        @if (saveAttempted && durationError) {
+            <div class="error-text">{{ durationError }}</div>
+        }
+
+        @if (backendError) {
+            <div class="error-text">{{ backendError }}</div>
+        }
+    </form>
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cerrar</button>
+        <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!canSave">
+            Guardar
+        </button>
+    </div>
+</div>

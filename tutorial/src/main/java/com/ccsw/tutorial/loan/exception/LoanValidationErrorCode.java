@@ -1,0 +1,13 @@
+package com.ccsw.tutorial.loan.exception;
+
+
+public enum LoanValidationErrorCode {
+
+    LOAN_DATES_INCONSISTENT,
+    LOAN_DURATION_EXCEEDS_MAX,
+    LOAN_GAME_NOT_AVAILABLE,
+    LOAN_CLIENT_MAX_ACTIVE_GAMES,
+    LOAN_GAME_NOT_FOUND,
+    LOAN_CLIENT_NOT_FOUND,
+    LOAN_REQUIRED_FIELDS
+}
